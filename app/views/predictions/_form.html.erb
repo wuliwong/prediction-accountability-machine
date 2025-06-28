@@ -1,32 +1,36 @@
-<%= form_with(model: prediction) do |form| %>
-  <% if prediction.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(prediction.errors.count, "error") %> prohibited this prediction from being saved:</h2>
+<div class="card bg-base-100 shadow-2xl">
+  <div class="card-body">
+    <%= form_with(model: prediction, class: "fieldset") do |form| %>
+      <% if prediction.errors.any? %>
+        <div style="color: red">
+          <h2><%= pluralize(prediction.errors.count, "error") %> prohibited this prediction from being saved:</h2>
 
-      <ul>
-        <% prediction.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+          <ul>
+            <% prediction.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-  <div>
-    <%= form.label :link, style: "display: block" %>
-    <%= form.text_field :link %>
+      <div>
+        <%= form.label "Paste the link to the prediction here", class: "label" %>
+        <%= form.text_field :link, class: "input", placeholder: "http://www.example.com/a-very-bad-prediction" %>
+      </div>
+
+      <div>
+        <%= form.label "Target date for the prediction", class: "label" %>
+        <%= form.datetime_field :target_date %>
+      </div>
+
+      <div>
+        <%= form.label "Enter the email you want us to send the reminder", class: "label" %>
+        <%= form.text_field :email, class: "input", type: "email", placeholder: "you@example.com" %>
+      </div>
+
+      <div>
+        <%= form.submit class: "btn btn-neutral mt-4" %>
+      </div>
+    <% end %>
   </div>
-
-  <div>
-    <%= form.label :target_date, style: "display: block" %>
-    <%= form.datetime_field :target_date %>
-  </div>
-
-  <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>
