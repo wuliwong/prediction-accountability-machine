@@ -4,7 +4,6 @@
       <% if prediction.errors.any? %>
         <div style="color: red">
           <h2><%= pluralize(prediction.errors.count, "error") %> prohibited this prediction from being saved:</h2>
-
           <ul>
             <% prediction.errors.each do |error| %>
               <li><%= error.full_message %></li>
@@ -20,7 +19,14 @@
 
       <div>
         <%= form.label "Target date for the prediction", class: "label" %>
-        <%= form.datetime_field :target_date %>
+        <%= form.hidden_field :target_date, id: "prediction_target_date" %>
+
+        <calendar-date id="date_picker" value="<%= prediction.target_date&.to_date&.iso8601 %>">
+          <calendar-month></calendar-month>
+        </calendar-date>
+
+        <label class="label mt-2">Select time</label>
+        <input type="time" id="time_picker" class="input" value="<%= prediction.target_date&.strftime('%H:%M') if prediction.target_date %>">
       </div>
 
       <div>
