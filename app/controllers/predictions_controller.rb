@@ -22,7 +22,10 @@ class PredictionsController < ApplicationController
   # POST /predictions or /predictions.json
   def create
     @prediction = Prediction.new(prediction_params)
+    user = User.find_or_create_by(email: params[:prediction][:email]) if params[:prediction][:email].present?
 
+    @prediction.user = user if user.present?
+    
     respond_to do |format|
       if @prediction.save
         format.html { redirect_to @prediction, notice: "Prediction was successfully created." }
@@ -65,6 +68,6 @@ class PredictionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def prediction_params
-      params.expect(prediction: [ :link, :target_date, :user_id ])
+      params.expect(prediction: [ :link, :target_date ])
     end
 end

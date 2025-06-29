@@ -13,24 +13,26 @@
       <% end %>
 
       <div>
-        <%= form.label "Paste the link to the prediction here", class: "label" %>
+        <%= form.label "Paste the link to the prediction here", class: "label" %><br />
         <%= form.text_field :link, class: "input", placeholder: "http://www.example.com/a-very-bad-prediction" %>
       </div>
 
       <div>
-        <%= form.label "Target date for the prediction", class: "label" %>
+        <%= form.label "Select the target date for the prediction", class: "label" %><br />
         <%= form.hidden_field :target_date, id: "prediction_target_date" %>
 
-        <calendar-date id="date_picker" value="<%= prediction.target_date&.to_date&.iso8601 %>">
+        <calendar-date value="<%= prediction.target_date&.to_date&.iso8601 %>" class="w-full cally bg-base-100 border border-base-300 shadow-lg rounded-box">
+          <svg aria-label="Previous" class="fill-current size-4" slot="previous" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M15.75 19.5 8.25 12l7.5-7.5"></path></svg>
+          <svg aria-label="Next" class="fill-current size-4" slot="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path></svg>
           <calendar-month></calendar-month>
         </calendar-date>
 
-        <label class="label mt-2">Select time</label>
-        <input type="time" id="time_picker" class="input" value="<%= prediction.target_date&.strftime('%H:%M') if prediction.target_date %>">
+        <label class="label">Select the time you want the email</label><br />
+        <input type="time" id="time_picker" class="input" value="<%= (prediction.target_date || Time.current).strftime('%H:%M') %>">
       </div>
 
       <div>
-        <%= form.label "Enter the email you want us to send the reminder", class: "label" %>
+        <%= form.label "Enter the email address where we will send the reminder", class: "label" %><br />
         <%= form.text_field :email, class: "input", type: "email", placeholder: "you@example.com" %>
       </div>
 
